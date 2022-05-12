@@ -1,0 +1,16 @@
+C:\Users\Utman\Desktop\Books\Tutor\C#\CLHBankApp\CLHBankApp\obj\Debug\net5.0\CLHBankApp.csprojAssemblyReference.cache
+C:\Users\Utman\Desktop\Books\Tutor\C#\CLHBankApp\CLHBankApp\obj\Debug\net5.0\CLHBankApp.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Utman\Desktop\Books\Tutor\C#\CLHBankApp\CLHBankApp\obj\Debug\net5.0\CLHBankApp.AssemblyInfoInputs.cache
+C:\Users\Utman\Desktop\Books\Tutor\C#\CLHBankApp\CLHBankApp\obj\Debug\net5.0\CLHBankApp.AssemblyInfo.cs
+C:\Users\Utman\Desktop\Books\Tutor\C#\CLHBankApp\CLHBankApp\obj\Debug\net5.0\CLHBankApp.csproj.CoreCompileInputs.cache
+C:\Users\Utman\Desktop\Books\Tutor\C#\CLHBankApp\CLHBankApp\bin\Debug\net5.0\CLHBankApp.exe
+C:\Users\Utman\Desktop\Books\Tutor\C#\CLHBankApp\CLHBankApp\bin\Debug\net5.0\CLHBankApp.deps.json
+C:\Users\Utman\Desktop\Books\Tutor\C#\CLHBankApp\CLHBankApp\bin\Debug\net5.0\CLHBankApp.runtimeconfig.json
+C:\Users\Utman\Desktop\Books\Tutor\C#\CLHBankApp\CLHBankApp\bin\Debug\net5.0\CLHBankApp.runtimeconfig.dev.json
+C:\Users\Utman\Desktop\Books\Tutor\C#\CLHBankApp\CLHBankApp\bin\Debug\net5.0\CLHBankApp.dll
+C:\Users\Utman\Desktop\Books\Tutor\C#\CLHBankApp\CLHBankApp\bin\Debug\net5.0\ref\CLHBankApp.dll
+C:\Users\Utman\Desktop\Books\Tutor\C#\CLHBankApp\CLHBankApp\bin\Debug\net5.0\CLHBankApp.pdb
+C:\Users\Utman\Desktop\Books\Tutor\C#\CLHBankApp\CLHBankApp\obj\Debug\net5.0\CLHBankApp.dll
+C:\Users\Utman\Desktop\Books\Tutor\C#\CLHBankApp\CLHBankApp\obj\Debug\net5.0\ref\CLHBankApp.dll
+C:\Users\Utman\Desktop\Books\Tutor\C#\CLHBankApp\CLHBankApp\obj\Debug\net5.0\CLHBankApp.pdb
+C:\Users\Utman\Desktop\Books\Tutor\C#\CLHBankApp\CLHBankApp\obj\Debug\net5.0\CLHBankApp.genruntimeconfig.cache
