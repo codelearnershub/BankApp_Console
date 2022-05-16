@@ -20,5 +20,10 @@ namespace CLHBankApp.Models
             Pin = pin;
             AccountTypeName = acctType;
         }
+
+        public string FullName()
+        {
+            return $"{FirstName} {LastName}";
+        }
     }
 }
