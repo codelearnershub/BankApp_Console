@@ -1,4 +1,5 @@
 ﻿using CLHBankApp.Enums;
+using CLHBankApp.Managers.Interfaces;
 using CLHBankApp.Models;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace CLHBankApp.Managers
 {
-    public class CustomerManager
+    public class CustomerManager: ICustomerManager
     {
         public static int NoOfCustomers = 0;
         AccountTypeManager acctTypeManager = new AccountTypeManager();
@@ -36,13 +37,18 @@ namespace CLHBankApp.Managers
             }
             Console.Write("Enter your date of birth(format: yyyy/mm/dd): ");
             DateTime dob = DateTime.Parse(Console.ReadLine());
-            if((DateTime.Now.Year - dob.Year) < 18 && AccountTypeName != "StudentAccount")
+            if((DateTime.Now.Year - dob.Year) < 18 && AccountTypeName != "Student Account")
             {
-                AccountTypeName = "StudentAccount";
+                AccountTypeName = "Student Account";
             }
 
             Console.Write("Enter your 4 digit unique pin: ");
             string pin = Console.ReadLine();
+            while(pin.Length > 4 || pin.Length < 4)
+            {
+                Console.WriteLine("Your pin length must be 4.");
+                pin = Console.ReadLine();
+            }
 
             string accountNo = GenerateAccNo();
             NoOfCustomers++;
@@ -122,7 +128,7 @@ namespace CLHBankApp.Managers
             {
                 var acctType = acctTypeManager.GetAccountType(customer.AccountTypeName);
                 var totalTransfer = amount + acctType.Charges;
-                if(customer.AccountBalance < totalTransfer)
+                if(customer.AccountBalance < (totalTransfer + acctType.MinimumBalance))
                 {
                     Console.WriteLine("Sorry, you do have sufficient balance for this transaction.");
                 }
@@ -141,8 +147,59 @@ namespace CLHBankApp.Managers
                 }
             }
         }
-        
-        public Customer GetCustomerByAccountNo(string accountNo)
+
+        public void MakeWithdraw(Customer customer)
+        {
+            decimal amount;
+            Console.Write("Enter Amount: ");
+            while (!decimal.TryParse(Console.ReadLine(), out amount))
+            {
+                Console.WriteLine("Invalid amount\nTry again...");
+            }
+            Console.Write("Please, enter your 4 digit pin to proceed: ");
+            var pin = Console.ReadLine();
+            if(customer.Pin == pin)
+            {
+                var acctType = acctTypeManager.GetAccountType(customer.AccountTypeName);
+
+                if(amount > acctType.MaximumWithdraw)
+                {
+                    Console.WriteLine($"Customer with {customer.AccountTypeName} type can only withdraw {acctType.MaximumWithdraw} once.");
+                    return;
+                }
+
+                var totalWithdraw = amount + acctType.Charges;
+                if((totalWithdraw + acctType.MinimumBalance) > customer.AccountBalance)
+                {
+                    Console.WriteLine("Insufficient balance...");
+                    return;
+                }
+
+                customer.AccountBalance -= totalWithdraw;
+                var details = $"Successfull withdrawal of {amount} with {acctType.Charges} charges from your account.";
+                TransactionManager.AddNewTransaction(customer.FullName(), details, amount, TransactionType.Withdraw, customer.AccountNo);
+                Console.WriteLine(details);
+            }
+        }
+
+        public Customer Login()
+        {
+            Console.Write("Enter your email: ");
+            var email = Console.ReadLine();
+            Console.Write("Enter your password: ");
+            var password = Console.ReadLine();
+
+            foreach(var customer in customers)
+            {
+                if (customer.Email == email && customer.Password == password)
+                {
+                    return customer;
+                }
+            }
+            return null;
+        }
+
+        private Customer GetCustomerByAccountNo(string accountNo)
         {
             foreach (var customer in customers)
             {
