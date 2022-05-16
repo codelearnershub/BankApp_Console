@@ -28,6 +28,27 @@ namespace CLHBankApp.Managers
             Console.WriteLine("Created successfully...");
         }
 
+        public void Update(string name)
+        {
+            AccountType accountType = GetAccountType(name);
+
+            if(accountType == null)
+            {
+                Console.WriteLine($"Account Type with the name {name} does not exist.");
+            }
+            else
+            {
+                Console.Write("Enter Account type charges: ");
+                accountType.Charges = decimal.Parse(Console.ReadLine());
+                Console.Write("Enter Account type minimum balance: ");
+                accountType.MinimumBalance = decimal.Parse(Console.ReadLine());
+                Console.Write("Enter Account type maximum withdrawal: ");
+                accountType.MaximumWithdraw = decimal.Parse(Console.ReadLine());
+                
+                Console.WriteLine("Account type successfully updated...");
+            }
+        }
+
         public AccountType GetAccountType(string name)
         {
             foreach(var accountType in accountTypes)

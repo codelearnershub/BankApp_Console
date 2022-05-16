@@ -8,10 +8,10 @@ namespace CLHBankApp.Enums
 {
     public enum Role
     {
-        Customer = 1,
-        Cashier,
-        Manager,
+        Manager = 1,
         CustomerCare,
-        Security
+        Cashier,
+        Security,
+        Customer
     }
 }

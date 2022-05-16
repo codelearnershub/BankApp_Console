@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CLHBankApp.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +9,8 @@ namespace CLHBankApp.Managers.Interfaces
 {
     public interface IStaffManager
     {
+        public void AddNewManger(Staff staff);
+        public void CreateAccountType(Staff staff);
+        public void UpdateAccountType(Staff staff);
     }
 }
