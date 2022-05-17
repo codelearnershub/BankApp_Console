@@ -207,7 +207,7 @@ namespace CLHBankApp.Managers
             return null;
         }
 
-        private Customer GetCustomerByAccountNo(string accountNo)
+        public Customer GetCustomerByAccountNo(string accountNo)
         {
             foreach (var customer in customers)
             {

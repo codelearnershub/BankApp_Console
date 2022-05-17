@@ -12,10 +12,18 @@ namespace CLHBankApp.Managers
     public class StaffManager : IStaffManager
     {
         public static int NoOfStaffs = 0;        
-        public static List<Staff> staffs = new List<Staff>();
-        AccountTypeManager accountTypeManager = new AccountTypeManager();
+        public static List<Staff> staffs;
+        AccountTypeManager accountTypeManager;
 
-        public void AddNewManger(Staff staff)
+        public StaffManager()
+        {
+            NoOfStaffs++;
+            staffs = new List<Staff>();
+            accountTypeManager = new AccountTypeManager();
+            var st = new Staff(NoOfStaffs, "Boss", "John", "boss@gmail.com", "boss", "09889899", Gender.Male, "Los", DateTime.Parse("1960/09/09"), Role.Manager);
+            staffs.Add(st);
+        }
+        public void AddNewStaff(Staff staff)
         {
             if(staff.Role != Role.Manager)
             {
@@ -70,6 +78,23 @@ namespace CLHBankApp.Managers
             {
                 accountTypeManager.Create();
             }
+        }
+
+        public Staff Login()
+        {
+            Console.Write("Enter your email: ");
+            var email = Console.ReadLine();
+            Console.Write("Enter your password: ");
+            var password = Console.ReadLine();
+
+            foreach (var staff in staffs)
+            {
+                if (staff.Email == email && staff.Password == password)
+                {
+                    return staff;
+                }
+            }
+            return null;
         }
 
         public void UpdateAccountType(Staff staff)

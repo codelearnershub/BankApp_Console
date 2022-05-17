@@ -58,6 +58,8 @@ namespace CLHBankApp.Menus
                             else
                             {
                                 OtherMenu(customer);
+                                Console.WriteLine("Thank you for using our app.");
+                                HookScreen();
                             }
                             break;
                         case 0:
@@ -91,9 +93,9 @@ namespace CLHBankApp.Menus
             Console.WriteLine("2.\tTransfer.");
             Console.WriteLine("3.\tWithdraw.");
             Console.WriteLine("4.\tGet all my transactions.");
-            Console.WriteLine("5.\t.Get account balance.");
-            Console.WriteLine("6.\t.Print my details");
-            Console.WriteLine("0.\tGo back to customer menu.");
+            Console.WriteLine("5.\tGet account balance.");
+            Console.WriteLine("6.\tPrint my details");
+            Console.WriteLine("0.\tLogout.");
         }
 
         public void OtherMenu(Customer customer)

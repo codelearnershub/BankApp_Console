@@ -9,8 +9,9 @@ namespace CLHBankApp.Managers.Interfaces
 {
     public interface IStaffManager
     {
-        public void AddNewManger(Staff staff);
+        public void AddNewStaff(Staff staff);
         public void CreateAccountType(Staff staff);
         public void UpdateAccountType(Staff staff);
+        public Staff Login();
     }
 }
