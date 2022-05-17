@@ -182,6 +182,14 @@ namespace CLHBankApp.Managers
             }
         }
 
+        public void ListAll()
+        {
+            foreach(var customer in customers)
+            {
+                Print(customer);
+            }
+        }
+
         public Customer Login()
         {
             Console.Write("Enter your email: ");
@@ -229,5 +237,22 @@ namespace CLHBankApp.Managers
             return false;
         }
 
+        public void Print(Customer customer)
+        {
+            Console.WriteLine($"{customer.Id}\t{customer.FullName()}\t{customer.AccountNo}\t{customer.AccountTypeName}\t{customer.AccountBalance}\t");
+        }
+
+        public void GetCustomer(string acctNo)
+        {
+            foreach (var customer in customers)
+            {
+                if (customer.AccountNo == acctNo)
+                {
+                    Print(customer);
+                    return;
+                }
+            }
+            Console.WriteLine($"No customer with the account number {acctNo}.");
+        }
     }
 }

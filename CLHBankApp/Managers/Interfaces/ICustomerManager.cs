@@ -13,6 +13,9 @@ namespace CLHBankApp.Managers.Interfaces
         public void DepositMoney(Customer customer, bool self);
         public void TransferMoney(Customer customer);
         public void MakeWithdraw(Customer customer);
+        public void ListAll();
+        public void Print(Customer customer);
+        public void GetCustomer(string acctNo);
         public Customer Login();
     }
 }

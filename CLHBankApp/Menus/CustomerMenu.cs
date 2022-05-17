@@ -45,7 +45,7 @@ namespace CLHBankApp.Menus
                                 default:
                                     Console.WriteLine("Invalid input...");
                                     break;
-                            }
+                            }HookScreen();
                             
                             break;
                         case 2:
@@ -91,8 +91,8 @@ namespace CLHBankApp.Menus
             Console.WriteLine("2.\tTransfer.");
             Console.WriteLine("3.\tWithdraw.");
             Console.WriteLine("4.\tGet all my transactions.");
-            Console.WriteLine("5.\t.");
-            Console.WriteLine("6.\t.");
+            Console.WriteLine("5.\t.Get account balance.");
+            Console.WriteLine("6.\t.Print my details");
             Console.WriteLine("0.\tGo back to customer menu.");
         }
 
@@ -124,15 +124,27 @@ namespace CLHBankApp.Menus
                                     Console.WriteLine("Invalid input...");
                                     break;
                             }
+                            HookScreen();
                             break;
                         case 2:
                             customerManager.TransferMoney(customer);
+                            HookScreen();
                             break;
                         case 3:
                             customerManager.MakeWithdraw(customer);
+                            HookScreen();
                             break;
                         case 4:
                             TransactionManager.GetAllByCustomer(customer.AccountNo);
+                            HookScreen();
+                            break;
+                        case 5:
+                            Console.WriteLine("Your account balance is: "+customer.AccountBalance);
+                            HookScreen();
+                            break;
+                        case 6:
+                            customerManager.Print(customer);
+                            HookScreen();
                             break;
                         case 0:
                             exit = true;
@@ -145,6 +157,12 @@ namespace CLHBankApp.Menus
                 }
 
             }
+        }
+
+        private void HookScreen()
+        {
+            Console.WriteLine("Press enter key to continue...");
+            Console.ReadKey();
         }
 
     }
