@@ -20,6 +20,7 @@ namespace CLHBankApp.Managers
             NoOfStaffs++;
             staffs = new List<Staff>();
             accountTypeManager = new AccountTypeManager();
+            //Seed a default manager to the list of staff to serve as the super admin.
             var st = new Staff(NoOfStaffs, "Boss", "John", "boss@gmail.com", "boss", "09889899", Gender.Male, "Los", DateTime.Parse("1960/09/09"), Role.Manager);
             staffs.Add(st);
         }
