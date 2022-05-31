@@ -11,8 +11,14 @@ namespace CLHBankApp.Menus
 {
     public class StaffMenu
     {
-        IStaffManager staffManager = new StaffManager();
-        ICustomerManager customerManager = new CustomerManager();
+        IStaffManager staffManager;
+        ICustomerManager customerManager;
+
+        public StaffMenu(ICustomerManager _customerManager)
+        {
+            staffManager = new StaffManager();
+            customerManager = _customerManager;
+        }
 
         public void Menu()
         {
@@ -76,6 +82,7 @@ namespace CLHBankApp.Menus
             Console.WriteLine("7.\tGet all transactions of customer in a date.");
             Console.WriteLine("8.\tGet account balance of a customer.");
             Console.WriteLine("9.\tPrint details of a customer.");
+            Console.WriteLine("10.\tGet all customers.");
             Console.WriteLine("0.\tLogout.");
         }
 
@@ -154,6 +161,14 @@ namespace CLHBankApp.Menus
                             Console.Write("Enter the customer account number: ");
                             var acctNo = Console.ReadLine();
                             customerManager.GetCustomer(acctNo);
+                            HookScreen();
+                            break;
+                        case 10:
+                            customerManager.ListAll();
+                            HookScreen();
+                            break;
+                        case 11:
+                            customerManager.ListAll();
                             HookScreen();
                             break;
                         case 0:

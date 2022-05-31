@@ -256,9 +256,16 @@ namespace CLHBankApp.Managers
 
         public void ListAll()
         {
-            foreach(var customer in customers)
+            int count = 0;
+            foreach (var customer in customers)
             {
+                count++;
                 Print(customer);
+            }
+
+            if (count == 0)
+            {
+                Console.WriteLine("There is no customer registered on the app...");
             }
         }
 

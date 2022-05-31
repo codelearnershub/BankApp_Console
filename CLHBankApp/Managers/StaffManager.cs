@@ -173,5 +173,43 @@ namespace CLHBankApp.Managers
                 AccountTypeManager.Update(name);
             }
         }
+
+        public void GetAll()
+        {
+            foreach (var staff in staffs)
+            {
+                Print(staff);
+            }
+        }
+
+        public void GetStaffDetails(string staffNo)
+        {
+            var staff = GetStaff(staffNo);
+            if(staff == null)
+            {
+                Console.WriteLine("Invalid staff number.");
+            }
+            else
+            {
+                Print(staff);
+            }
+        }
+
+        private Staff GetStaff(string staffNo)
+        {
+            foreach(var staff in staffs)
+            {
+                if(staff.StaffNo == staffNo)
+                {
+                    return staff;
+                }
+            }
+            return null;
+        }
+
+        private void Print(Staff staff)
+        {
+            Console.WriteLine($"{staff.Id}\t{staff.FirstName}\t{staff.LastName}\t{staff.Email}");
+        }
     }
 }

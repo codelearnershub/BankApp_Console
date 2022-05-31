@@ -53,9 +53,9 @@ namespace CLHBankApp.Models
             DateTime dateOfBirth = DateTime.Parse(myCust[8]);
             Role role = (Role)Enum.Parse(typeof(Role), myCust[9]);
             string accountNo = myCust[10];
-            decimal accountBalance = decimal.Parse(myCust[11]);
-            string pin = myCust[12];
-            string accountTypeName = myCust[13];
+            string pin = myCust[11];
+            string accountTypeName = myCust[12];
+            decimal accountBalance = decimal.Parse(myCust[13]);
 
             return new Customer(id, firstName, lastName, email, password, phoneNo, gender, address, dateOfBirth, role, accountNo, accountBalance, pin, accountTypeName);
         }
