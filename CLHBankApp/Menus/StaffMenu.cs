@@ -83,6 +83,7 @@ namespace CLHBankApp.Menus
             Console.WriteLine("8.\tGet account balance of a customer.");
             Console.WriteLine("9.\tPrint details of a customer.");
             Console.WriteLine("10.\tGet all customers.");
+            Console.WriteLine("11.\tGet all staff.");
             Console.WriteLine("0.\tLogout.");
         }
 
@@ -168,7 +169,7 @@ namespace CLHBankApp.Menus
                             HookScreen();
                             break;
                         case 11:
-                            customerManager.ListAll();
+                            staffManager.GetAll();
                             HookScreen();
                             break;
                         case 0:

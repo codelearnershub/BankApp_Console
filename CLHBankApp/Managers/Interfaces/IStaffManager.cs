@@ -12,6 +12,7 @@ namespace CLHBankApp.Managers.Interfaces
         public void AddNewStaff(Staff staff);
         public void CreateAccountType(Staff staff);
         public void UpdateAccountType(Staff staff);
+        public void GetAll();
         public Staff Login();
     }
 }
