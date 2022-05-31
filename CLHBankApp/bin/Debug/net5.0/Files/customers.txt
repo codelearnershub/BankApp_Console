@@ -1,1 +1,2 @@
-1	Adesare	Adegbagi	adesare@gmail.com	1234	09099889987	Male	abk	5/5/2010 12:00:00 AM	Customer	0087981203	1234	Student Account	0
+1	Adesare	Adegbagi	adesare@gmail.com	1234	09099889987	Male	abk	5/5/2010 12:00:00 AM	Customer	0087981203	Student Account	0	52234
+2	Muzir	Mahmud	muzir	1234	08076543344	Male	abk	6/9/2011 12:00:00 AM	Customer	0074733210	1234	Student Account	50000
