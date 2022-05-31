@@ -1,5 +1,8 @@
-﻿using CLHBankApp.Menus;
+﻿using CLHBankApp.Exceptions;
+using CLHBankApp.Managers;
+using CLHBankApp.Menus;
 using System;
+using System.Collections.Generic;
 
 namespace CLHBankApp
 {
@@ -9,6 +12,7 @@ namespace CLHBankApp
         {
             MainMenu menu = new MainMenu();
             menu.Menu();
+
         }
     }
 }

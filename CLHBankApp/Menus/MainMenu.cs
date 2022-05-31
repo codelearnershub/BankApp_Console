@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CLHBankApp.Managers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,9 +9,16 @@ namespace CLHBankApp.Menus
 {
     public class MainMenu
     {
-        StaffMenu staffMenu = new StaffMenu();
-        CustomerMenu cutomerMenu = new CustomerMenu();
+        StaffMenu staffMenu;
+        CustomerMenu cutomerMenu;
         
+        public MainMenu()
+        {
+            staffMenu = new StaffMenu();
+            cutomerMenu = new CustomerMenu();
+            TransactionManager trMger = new TransactionManager();
+            AccountTypeManager acctMger = new AccountTypeManager();
+        }
 
         public void Menu()
         {

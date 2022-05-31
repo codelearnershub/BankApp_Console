@@ -18,5 +18,6 @@ namespace CLHBankApp.Managers.Interfaces
         public void GetCustomer(string acctNo);
         public Customer GetCustomerByAccountNo(string accountNo);
         public Customer Login();
+        public void PrintAcccountBalance(string accountNo);
     }
 }

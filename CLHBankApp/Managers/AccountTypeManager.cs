@@ -1,6 +1,7 @@
 ﻿using CLHBankApp.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,10 +10,81 @@ namespace CLHBankApp.Managers
 {
     public class AccountTypeManager
     {
-        public static int NoOfAccountType = 0;
-        public List<AccountType> accountTypes = new List<AccountType>();
+        static string file = @"Files\accountTypes.txt";
+        static List<AccountType> accountTypes = new List<AccountType>();
 
-        public void Create()
+        public AccountTypeManager()
+        {
+            ReadFromFile();
+        }
+
+        private void ReadFromFile()
+        {
+            try
+            {
+                if (File.Exists(file))
+                {
+                    var allLines = File.ReadAllLines(file);
+                    foreach (var line in allLines)
+                    {
+                        var accountType = AccountType.ToAccountType(line);
+                        accountTypes.Add(accountType);
+                    }
+                }
+                else
+                {
+                    var path = "Files";
+                    Directory.CreateDirectory(path);
+                    var fileName = "accountTypes.txt";
+                    var fullPath = Path.Combine(path, fileName);
+                    using (File.Create(fullPath))
+                    {
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+        }
+
+        private static void WriteToFile(AccountType accountType)
+        {
+            try
+            {
+                using(StreamWriter write = new StreamWriter(file, true))
+                {
+                    write.WriteLine(accountType.ToString());
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+        private static void RefreshFile()
+        {
+            try
+            {
+                using (StreamWriter write = new StreamWriter(file))
+                {
+                    foreach (var accountType in accountTypes)
+                    {
+                        write.WriteLine(accountType.ToString());
+                    }
+                    
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+        public static void Create()
         {
             Console.Write("Enter Account type name: ");
             var name = Console.ReadLine();
@@ -22,13 +94,16 @@ namespace CLHBankApp.Managers
             var minimumBal = decimal.Parse(Console.ReadLine());
             Console.Write("Enter Account type maximum withdrawal: ");
             var maxWithdrawal = decimal.Parse(Console.ReadLine());
-            NoOfAccountType++;
-            var accountType = new AccountType(NoOfAccountType, name, charges, minimumBal, maxWithdrawal);
+
+            int id = accountTypes.Count == 0 ? 1 : accountTypes[accountTypes.Count - 1].Id + 1;
+
+            var accountType = new AccountType(id, name, charges, minimumBal, maxWithdrawal);
             accountTypes.Add(accountType);
+            WriteToFile(accountType);
             Console.WriteLine("Created successfully...");
         }
 
-        public void Update(string name)
+        public static void Update(string name)
         {
             AccountType accountType = GetAccountType(name);
 
@@ -44,12 +119,12 @@ namespace CLHBankApp.Managers
                 accountType.MinimumBalance = decimal.Parse(Console.ReadLine());
                 Console.Write("Enter Account type maximum withdrawal: ");
                 accountType.MaximumWithdraw = decimal.Parse(Console.ReadLine());
-                
+                RefreshFile();
                 Console.WriteLine("Account type successfully updated...");
             }
         }
 
-        public AccountType GetAccountType(string name)
+        public static AccountType GetAccountType(string name)
         {
             foreach(var accountType in accountTypes)
             {

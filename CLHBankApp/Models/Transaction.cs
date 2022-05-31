@@ -27,5 +27,24 @@ namespace CLHBankApp.Models
             Type = type;
             AccountNo = acctNo;
         }
+
+        public override string ToString()
+        {
+            return $"{Id}\t{CustomerName}\t{Details}\t{Date}\t{Amount}\t{Type}\t{AccountNo}";
+        }
+
+        public static Transaction ToTransaction(string str)
+        {
+            var trans = str.Split("\t");
+            int id = int.Parse(trans[0]);
+            string customerName = trans[1];
+            string details = trans[2];
+            DateTime date = DateTime.Parse(trans[3]);
+            decimal amount = decimal.Parse(trans[4]);
+            TransactionType type = (TransactionType)Enum.Parse(typeof(TransactionType), trans[5]);
+            string acctNo = trans[6];
+
+            return new Transaction(id, customerName, details, date, amount, type, acctNo);
+        }
     }
 }

@@ -11,7 +11,12 @@ namespace CLHBankApp.Menus
 {
     public class CustomerMenu
     {
-        ICustomerManager customerManager = new CustomerManager();
+        ICustomerManager customerManager;
+
+        public CustomerMenu()
+        {
+            customerManager = new CustomerManager();
+        }
 
         public void Menu()
         {

@@ -1,7 +1,9 @@
 ﻿using CLHBankApp.Enums;
+using CLHBankApp.Exceptions;
 using CLHBankApp.Managers.Interfaces;
 using CLHBankApp.Models;
 using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,9 +13,78 @@ namespace CLHBankApp.Managers
 {
     public class CustomerManager: ICustomerManager
     {
-        public static int NoOfCustomers = 0;
-        AccountTypeManager acctTypeManager = new AccountTypeManager();
+        string file = @"Files\customers.txt";
         public static List<Customer> customers = new List<Customer>();
+        
+        public CustomerManager()
+        {
+            ReadFromFile();
+        }
+
+        private void ReadFromFile()
+        {
+            try
+            {
+                if (File.Exists(file))
+                {
+                    var allLines = File.ReadAllLines(file);
+                    foreach (var line in allLines)
+                    {
+                        var customer = Customer.ToCustomer(line);
+                        customers.Add(customer);
+                    }
+                }
+                else
+                {
+                    var path = "Files";
+                    Directory.CreateDirectory(path);
+                    var fileName = "customers.txt";
+                    var fullPath = Path.Combine(path, fileName);
+                    using (File.Create(fullPath))
+                    {
+
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            
+        }
+
+        private void WriteToFile(Customer customer)
+        {
+            try
+            {
+                using(StreamWriter write = new StreamWriter(file, true))
+                {
+                    write.WriteLine(customer.ToString());
+                }
+            }catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+        private void RefreshFile()
+        {
+            try
+            {
+                using (StreamWriter write = new StreamWriter(file))
+                {
+                    foreach (var customer in customers)
+                    {
+                        write.WriteLine(customer.ToString());
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
 
         public void Register(string AccountTypeName)
         {
@@ -51,11 +122,11 @@ namespace CLHBankApp.Managers
             }
 
             string accountNo = GenerateAccNo();
-            NoOfCustomers++;
-            
-            var customer = new Customer(NoOfCustomers, firstName, lastName, email, password, phone, (Gender)gender, address, dob, Role.Customer, accountNo, pin, AccountTypeName);
+            int id = customers.Count == 0 ? 1 : customers[customers.Count - 1].Id + 1;
+            var customer = new Customer(id, firstName, lastName, email, password, phone, (Gender)gender, address, dob, Role.Customer, accountNo, pin, AccountTypeName);
 
             customers.Add(customer);
+            WriteToFile(customer);
             Console.WriteLine($"You have successfully created an account with us, your account number is: {accountNo}");
         }
 
@@ -73,7 +144,7 @@ namespace CLHBankApp.Managers
 
                 var details = $"successfully deposited {amount} into you account.";
                 TransactionManager.AddNewTransaction(customer.FullName(), details, amount, TransactionType.Deposit, customer.AccountNo);
-
+                RefreshFile();
                 Console.WriteLine($"You have successfully deposited {amount} into you account.");
             }
             else
@@ -97,7 +168,7 @@ namespace CLHBankApp.Managers
 
                 var details = $"successfull deposit of {amount} into {receiver.FullName()}.";
                 TransactionManager.AddNewTransaction(customer.FullName(), details, amount, TransactionType.Deposit, receiver.AccountNo);
-
+                RefreshFile();
                 Console.WriteLine($"You have successfully deposited {amount} into you {receiver.FullName()}.");
 
             }
@@ -126,7 +197,7 @@ namespace CLHBankApp.Managers
             string pin = Console.ReadLine();
             if(customer.Pin == pin)
             {
-                var acctType = acctTypeManager.GetAccountType(customer.AccountTypeName);
+                var acctType = AccountTypeManager.GetAccountType(customer.AccountTypeName);
                 var totalTransfer = amount + acctType.Charges;
                 if(customer.AccountBalance < (totalTransfer + acctType.MinimumBalance))
                 {
@@ -136,7 +207,7 @@ namespace CLHBankApp.Managers
                 {
                     customer.AccountBalance -= totalTransfer;
                     receiver.AccountBalance += amount;
-
+                    RefreshFile();
                     Console.WriteLine($"You successfully transfered {amount} to {receiver.FullName()}");
 
                     var details = $"successfull transfer of {amount} with {acctType.Charges} charges to {receiver.FullName()}.";
@@ -160,7 +231,7 @@ namespace CLHBankApp.Managers
             var pin = Console.ReadLine();
             if(customer.Pin == pin)
             {
-                var acctType = acctTypeManager.GetAccountType(customer.AccountTypeName);
+                var acctType = AccountTypeManager.GetAccountType(customer.AccountTypeName);
 
                 if(amount > acctType.MaximumWithdraw)
                 {
@@ -176,6 +247,7 @@ namespace CLHBankApp.Managers
                 }
 
                 customer.AccountBalance -= totalWithdraw;
+                RefreshFile();
                 var details = $"Successfull withdrawal of {amount} with {acctType.Charges} charges from your account.";
                 TransactionManager.AddNewTransaction(customer.FullName(), details, amount, TransactionType.Withdraw, customer.AccountNo);
                 Console.WriteLine(details);
@@ -217,6 +289,19 @@ namespace CLHBankApp.Managers
                 }
             }
             return null;
+        }
+
+        public void PrintAcccountBalance(string accountNo)
+        {
+            var customer = GetCustomerByAccountNo(accountNo);
+            if(customer == null)
+            {
+                throw new NotFoundException($"There is no custoemr with this account number {accountNo}");
+            }
+            else
+            {
+                Console.WriteLine(customer.AccountBalance);
+            }
         }
 
         private string GenerateAccNo()

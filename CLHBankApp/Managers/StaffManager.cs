@@ -3,6 +3,7 @@ using CLHBankApp.Managers.Interfaces;
 using CLHBankApp.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,19 +12,81 @@ namespace CLHBankApp.Managers
 {
     public class StaffManager : IStaffManager
     {
-        public static int NoOfStaffs = 0;        
         public static List<Staff> staffs;
-        AccountTypeManager accountTypeManager;
-
+        string file = @"Files\staffs.txt";
+        
         public StaffManager()
         {
-            NoOfStaffs++;
             staffs = new List<Staff>();
-            accountTypeManager = new AccountTypeManager();
-            //Seed a default manager to the list of staff to serve as the super admin.
-            var st = new Staff(NoOfStaffs, "Boss", "John", "boss@gmail.com", "boss", "09889899", Gender.Male, "Los", DateTime.Parse("1960/09/09"), Role.Manager);
-            staffs.Add(st);
+            ReadFromFile();
         }
+
+        private void ReadFromFile()
+        {
+            try
+            {
+                if (File.Exists(file))
+                {
+                    var allLines = File.ReadAllLines(file);
+                    foreach (var line in allLines)
+                    {
+                        var staff = Staff.ToStaff(line);
+                        staffs.Add(staff);
+                    }
+                }
+                else
+                {
+                    var path = "Files";
+                    Directory.CreateDirectory(path);
+                    var fileName = "staffs.txt";
+                    var fullPath = Path.Combine(path, fileName);
+                    using (File.Create(fullPath))
+                    {
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+        }
+
+        private void WriteToFile(Staff staff)
+        {
+            try
+            {
+                using (StreamWriter write = new StreamWriter(file, true))
+                {
+                    write.WriteLine(staff.ToString());
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+        private void RefreshFile()
+        {
+            try
+            {
+                using (StreamWriter write = new StreamWriter(file))
+                {
+                    foreach (var staff in staffs)
+                    {
+                        write.WriteLine(staff.ToString());
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
         public void AddNewStaff(Staff staff)
         {
             if(staff.Role != Role.Manager)
@@ -59,12 +122,11 @@ namespace CLHBankApp.Managers
                 {
                     Console.Write("Invalid role...\nTry again: ");
                 }
-                
-                NoOfStaffs++;
-
-                var newStaff = new Staff(NoOfStaffs, firstName, lastName, email, password, phone, (Gender)gender, address, dob, (Role)role);
+                int id = staffs.Count == 0 ? 1 : staffs[staffs.Count - 1].Id + 1;
+                var newStaff = new Staff(id, firstName, lastName, email, password, phone, (Gender)gender, address, dob, (Role)role);
 
                 staffs.Add(newStaff);
+                WriteToFile(newStaff);
                 Console.WriteLine($"You have successfully added a new staff with staff number {newStaff.StaffNo}.");
             }
         }
@@ -77,7 +139,7 @@ namespace CLHBankApp.Managers
             }
             else
             {
-                accountTypeManager.Create();
+                AccountTypeManager.Create();
             }
         }
 
@@ -108,7 +170,7 @@ namespace CLHBankApp.Managers
             {
                 Console.Write("Enter name of account type to edit: ");
                 var name = Console.ReadLine();
-                accountTypeManager.Update(name);
+                AccountTypeManager.Update(name);
             }
         }
     }
